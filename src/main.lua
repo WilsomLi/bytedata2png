@@ -3,6 +3,8 @@ function main()
   print("!!!bytedata 2 png!!!")
   
   local fileName = arg[1]
+  local outPath = arg[2]
+  
   print("fileName:"..fileName)
   local file = assert(io.open(fileName,"rb"))
   local fileSize = fsize(file)
@@ -20,23 +22,24 @@ function main()
       startIndex = i-1
     elseif(t == "END") then
       endIndex = i + 7
-      writePngFile(pngNameIndex,file,startIndex,endIndex)
+      writePngFile(outPath,pngNameIndex,file,startIndex,endIndex)
       
       i = endIndex + 1
       pngNameIndex = pngNameIndex + 1
     end
   end
   
+  print("output end!")
   file:close()
 end
 
-function writePngFile(index,file,startIndex,endIndex)
-  local name = "asset/out/"..index..".png"
+function writePngFile(outPath,index,file,startIndex,endIndex)
+  local name = outPath.."/"..index..".png"
   local outFile = io.open(name,"wb")
   file:seek("set",startIndex)
   local data = file:read(endIndex-startIndex)
   outFile:write(data)
---  print("output:"..name)
+  print("output:"..name)
   assert(outFile:close())
 end
 
