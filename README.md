@@ -8,4 +8,4 @@ It's a bytedata to png tool by lua language.
 
 命令行：
 cd GitHub/bytedata2png/src/
-lua main.lua 
+lua main.lua /Users/lijia/Resource/asset.dat /Users/lijia/Resource/xianxiadao
