@@ -14,7 +14,8 @@ function main()
 
   local pngNameIndex = 1 
   
-  local t,startIndex,endIndex
+  local t
+  local startIndex,endIndex=0,0
   for i=0,fileSize do
     file:seek("set",i)
     t = file:read(3)
