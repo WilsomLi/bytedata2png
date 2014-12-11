@@ -9,28 +9,41 @@ function main()
   local file = assert(io.open(fileName,"rb"))
   local fileSize = fsize(file)
   print("fileSize:"..fileSize)
-  
---  local data = file:read("*all")
 
-  local pngNameIndex = 1 
+  local pngNameIndex = 1
   
-  local t
-  local startIndex,endIndex=0,0
-  for i=0,fileSize do
-    file:seek("set",i)
-    t = file:read(3)
-    if(t == "PNG") then
-      startIndex = i-1
-    elseif(t == "END") then
-      endIndex = i + 7
-      writePngFile(outPath,pngNameIndex,file,startIndex,endIndex)
-      
-      i = endIndex + 1
-      pngNameIndex = pngNameIndex + 1
-    end
+  local startTime = os.clock()
+  
+--  local t
+--  local startIndex,endIndex=0,0
+--  for i=0,fileSize do
+--    file:seek("set",i)
+--    t = file:read(3)
+--    if(t == "PNG") then
+--      startIndex = i-1
+--    elseif(t == "END") then
+--      endIndex = i + 7
+--      writePngFile(outPath,pngNameIndex,file,startIndex,endIndex)
+--      
+--      i = endIndex + 1
+--      pngNameIndex = pngNameIndex + 1
+--    end
+--  end
+  
+  local data = file:read("*all")
+  local i = 0
+  local e = 0
+  while true do
+    i = string.find(data,"PNG",i+1)
+    if i == nil then break end
+    e = string.find(data,"END",i+3)
+    if e == nil then break end
+    writePngFile(outPath,pngNameIndex,file,i-2,e+6)
+    pngNameIndex = pngNameIndex + 1
   end
   
   print("output end!")
+  print("costTime:"..os.clock()-startTime)
   file:close()
 end
 
